@@ -22,6 +22,12 @@ ThemeData themeData = ThemeData(
     enabledBorder: outlineInputBorder,
     disabledBorder: outlineInputBorder,
   ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      side: BorderSide(color: Colors.red),
+    ),
+  ),
+  primarySwatch: Colors.red,
 );
 
 OutlineInputBorder outlineInputBorder = OutlineInputBorder(
