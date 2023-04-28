@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/theme.dart';
 import 'package:groccryapp/firebase_helper/firebase_auth_helper.dart';
 import 'package:groccryapp/firebase_helper/firebase_option.dart';
+import 'package:groccryapp/provider/app_provider.dart';
 import 'package:groccryapp/screens/home/home.dart';
 import 'package:groccryapp/screens/welcome/welcome.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,19 +23,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Groccery App',
-      theme: themeData,
-      home: StreamBuilder(
-          stream: FirebaseAuthHelper.instance.getAuthChange,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return  HomePage();
-            }
-            return  WelcomePage();
-          },
-        ),
+    return ChangeNotifierProvider(
+      create: (context) => AppProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Groccery App',
+        theme: themeData,
+        home: StreamBuilder(
+            stream: FirebaseAuthHelper.instance.getAuthChange,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return  HomePage();
+              }
+              return  WelcomePage();
+            },
+          ),
+      ),
     );
   }
 }

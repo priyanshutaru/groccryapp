@@ -2,7 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:groccryapp/constants/constants.dart';
+import 'package:groccryapp/constants/routes.dart';
 import 'package:groccryapp/models/products_model.dart';
+import 'package:groccryapp/provider/app_provider.dart';
+import 'package:groccryapp/screens/cart_screen/cart_screen.dart';
+import 'package:groccryapp/screens/fav_screen/fav_screen.dart';
+import 'package:provider/provider.dart';
 
 class ProductsDeatials extends StatefulWidget {
   final ProductModel singleProduct;
@@ -13,9 +19,11 @@ class ProductsDeatials extends StatefulWidget {
 }
 
 class _ProductsDeatialsState extends State<ProductsDeatials> {
-  int qty = 0;
+  int qty = 1;
+
   @override
   Widget build(BuildContext context) {
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -24,7 +32,9 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
         //iconTheme: Colors.black,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Routes.instance.push(widget: AddToCardScreen(), context: context);
+            },
             icon: Icon(
               Icons.shopping_cart,
             ),
@@ -46,13 +56,21 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                 Text(widget.singleProduct.name),
                 IconButton(
                   onPressed: () {
-                    setState(() {
-                      widget.singleProduct.isFavourite =
-                          !widget.singleProduct.isFavourite;
-                    });
+                    setState(
+                      () {
+                        widget.singleProduct.isFavourite =
+                            !widget.singleProduct.isFavourite;
+                      },
+                    );
+                    if (widget.singleProduct.isFavourite) {
+                      appProvider.addFavouriteProduct(widget.singleProduct);
+                    } else {
+                      appProvider.removeFavouriteProduct(widget.singleProduct);
+                    }
                   },
                   icon: Icon(
-                    widget.singleProduct.isFavourite
+                    appProvider.getFavouriteProductList
+                            .contains(widget.singleProduct)
                         ? Icons.favorite
                         : Icons.favorite_border,
                   ),
@@ -68,7 +86,7 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                 CupertinoButton(
                   onPressed: () {
                     setState(() {
-                      if (qty >= 1) {
+                      if (qty >= 2) {
                         qty--;
                       }
                     });
@@ -97,7 +115,6 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                     });
                   },
                   child: CircleAvatar(
-                    
                     child: Icon(
                       Icons.add,
                       color: Colors.white,
@@ -114,7 +131,12 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                   height: 45,
                   width: 150,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ProductModel productModel =
+                          widget.singleProduct.copyWith(qty: qty);
+                      appProvider.addCartProduct(productModel);
+                      toastMessage("Item Added");
+                    },
                     child: Text(
                       "Add To Cart",
                       style: TextStyle(color: Colors.red),
@@ -128,7 +150,10 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                     height: 45,
                     width: 150,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Routes.instance
+                            .push(widget: FavScreen(), context: context);
+                      },
                       child: Text("Buy"),
                     )),
               ],
