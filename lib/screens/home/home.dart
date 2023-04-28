@@ -129,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                     bestproductsList.isEmpty
                         ? Text("List is Empty")
                         : GridView.builder(
+                            padding: EdgeInsets.only(bottom: 70),
                             itemCount: bestproductsList.length,
                             shrinkWrap: true,
                             primary: false,

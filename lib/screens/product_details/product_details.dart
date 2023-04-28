@@ -33,7 +33,7 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
         actions: [
           IconButton(
             onPressed: () {
-              Routes.instance.push(widget: AddToCardScreen(), context: context);
+              Routes.instance.push(widget: CartScreen(), context: context);
             },
             icon: Icon(
               Icons.shopping_cart,
@@ -123,7 +123,10 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                 ),
               ],
             ),
-            Spacer(),
+            // Spacer(),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -158,9 +161,9 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                     )),
               ],
             ),
-            SizedBox(
-              height: 30,
-            ),
+            // SizedBox(
+            //   height: 50,
+            // ),
           ],
         ),
       ),
