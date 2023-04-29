@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/routes.dart';
 import 'package:groccryapp/firebase_helper/firebase_auth_helper.dart';
 import 'package:groccryapp/provider/app_provider.dart';
+import 'package:groccryapp/screens/change_password/change_password.dart';
 import 'package:groccryapp/screens/edit_profile/edit_profile.dart';
 import 'package:provider/provider.dart';
 
@@ -90,12 +91,20 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
                 ListTile(
                   onTap: () {},
-                  leading: Icon(Icons.question_answer_outlined),
+                  leading: Icon(Icons.accessibility_outlined),
                   title: Text("About Us"),
                 ),
                 ListTile(
+                  onTap: () {
+                    Routes.instance
+                        .push(widget: ChangePassword(), context: context);
+                  },
+                  leading: Icon(Icons.change_circle_outlined),
+                  title: Text("Change Password"),
+                ),
+                ListTile(
                   onTap: () {},
-                  leading: Icon(Icons.help),
+                  leading: Icon(Icons.support_agent_outlined),
                   title: Text("Support"),
                 ),
                 ListTile(

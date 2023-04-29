@@ -76,13 +76,16 @@ class _EditProfileState extends State<EditProfile> {
           const SizedBox(
             height: 24.0,
           ),
-          ElevatedButton(
-            child: Text("Update"),
-            onPressed: () async {
-              UserModel userModel = appProvider.getUserInformation
-                  .copyWith(name: textEditingController.text);
-              appProvider.updateUserInfoFirebase(context, userModel, image);
-            },
+          Container(
+            height: 45,
+            child: ElevatedButton(
+              child: Text("Update"),
+              onPressed: () async {
+                UserModel userModel = appProvider.getUserInformation
+                    .copyWith(name: textEditingController.text);
+                appProvider.updateUserInfoFirebase(context, userModel, image);
+              },
+            ),
           ),
         ],
       ),

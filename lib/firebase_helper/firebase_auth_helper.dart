@@ -4,16 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/constants.dart';
+import 'package:groccryapp/constants/routes.dart';
 
 import 'package:groccryapp/models/usermodel.dart';
-
+import 'package:groccryapp/screens/auth/login.dart';
 
 class FirebaseAuthHelper {
   static FirebaseAuthHelper instance = FirebaseAuthHelper();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get getAuthChange => _auth.authStateChanges();
 
@@ -41,19 +42,38 @@ class FirebaseAuthHelper {
           id: userCredential.user!.uid, name: name, email: email, image: null);
 
       _firestore.collection("users").doc(userModel.id).set(userModel.toJson());
-      Navigator.of(context,rootNavigator: true).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       return true;
     } on FirebaseAuthException catch (error) {
-      Navigator.of(context,rootNavigator: true).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       toastMessage(error.code.toString());
       return false;
     }
   }
 
-  void signout()async{
+  void signout() async {
     _auth.signOut();
+  }
 
-  } 
+  Future<bool> changePassword(String password, BuildContext context) async {
+    try {
+      showLoaderDialog(context);
+      _auth.currentUser!.updatePassword(password);
+      // UserCredential userCredential = await _auth
+      //     .createUserWithEmailAndPassword(email: email, password: password);
+      // UserModel userModel = UserModel(
+      //     id: userCredential.user!.uid, name: name, email: email, image: null);
 
+      // _firestore.collection("users").doc(userModel.id).set(userModel.toJson());
+      Navigator.of(context, rootNavigator: true).pop();
+      toastMessage("Password Changed");
+      Navigator.of(context).pop();
 
+      return true;
+    } on FirebaseAuthException catch (error) {
+      Navigator.of(context, rootNavigator: true).pop();
+      toastMessage(error.code.toString());
+      return false;
+    }
+  }
 }

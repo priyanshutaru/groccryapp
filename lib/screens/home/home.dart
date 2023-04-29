@@ -41,10 +41,11 @@ class _HomePageState extends State<HomePage> {
     categoryList = await FirebaseFirestoreHelper.instance.getCategories();
     bestproductsList = await FirebaseFirestoreHelper.instance.getBestProducts();
     bestproductsList.shuffle();
-
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
