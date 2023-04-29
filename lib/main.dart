@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:groccryapp/constants/theme.dart';
 import 'package:groccryapp/firebase_helper/firebase_auth_helper.dart';
 import 'package:groccryapp/firebase_helper/firebase_option.dart';
@@ -11,6 +12,8 @@ import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+  "pk_test_51MWx8OAVMyklfe3CsjEzA1CiiY0XBTlHYbZ8jQlGtVFIwQi4aNeGv8J1HUw4rgSavMTLzTwgn0XRlwoTVRFXyu2h00mRUeWmAf";
   await Firebase.initializeApp(
     options: DefaultFirebaseConfig.platformOptions,
     

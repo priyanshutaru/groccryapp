@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/routes.dart';
 import 'package:groccryapp/firebase_helper/firebase_auth_helper.dart';
 import 'package:groccryapp/provider/app_provider.dart';
+import 'package:groccryapp/screens/about_us/about_us.dart';
 import 'package:groccryapp/screens/change_password/change_password.dart';
 import 'package:groccryapp/screens/edit_profile/edit_profile.dart';
 import 'package:groccryapp/screens/fav_screen/fav_screen.dart';
@@ -93,7 +94,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   title: Text("Favrioute"),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Routes.instance.push(widget: AboutUs(), context: context);
+                  },
                   leading: Icon(Icons.accessibility_outlined),
                   title: Text("About Us"),
                 ),
