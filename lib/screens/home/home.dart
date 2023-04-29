@@ -124,18 +124,23 @@ class _HomePageState extends State<HomePage> {
                                                 CategoryView(categoryModel: e),
                                             context: context);
                                       },
-                                      child: Card(
-                                        color: Colors.white,
-                                        elevation: 3.0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        ),
-                                        child: SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.network(e.image),
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          Card(
+                                            color: Colors.white,
+                                            elevation: 3.0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              child: Image.network(e.image),
+                                            ),
+                                          ),
+                                          Text(e.name),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -210,8 +215,13 @@ class _HomePageState extends State<HomePage> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          Text(
-                                              "Price: \$${singleProduct.price}"),
+                                          Row(
+                                            children: [
+                                              Text("Price:"),
+                                              Text(singleProduct.price
+                                                  .toString()),
+                                            ],
+                                          ),
                                           const SizedBox(
                                             height: 30.0,
                                           ),
@@ -259,11 +269,13 @@ class _HomePageState extends State<HomePage> {
                                             bestproductsList[index];
                                         return Container(
                                           decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
                                             color: Theme.of(context)
                                                 .primaryColor
                                                 .withOpacity(0.3),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
                                           ),
                                           child: Column(
                                             children: [
@@ -278,17 +290,32 @@ class _HomePageState extends State<HomePage> {
                                               const SizedBox(
                                                 height: 12.0,
                                               ),
-                                              Text(
-                                                singleProduct.name,
-                                                style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.bold,
+                                              Expanded(
+                                                child: Center(
+                                                  child: Text(
+                                                    singleProduct.name,
+                                                    style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                              Text(
-                                                  "Price: \$${singleProduct.price}"),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text("Price:"),
+                                                  Text(singleProduct.price
+                                                      .toString()),
+                                                ],
+                                              ),
                                               const SizedBox(
-                                                height: 30.0,
+                                                height: 10.0,
                                               ),
                                               SizedBox(
                                                 height: 45,
@@ -305,6 +332,9 @@ class _HomePageState extends State<HomePage> {
                                                     "Buy",
                                                   ),
                                                 ),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
                                               ),
                                             ],
                                           ),
