@@ -1,15 +1,18 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_import
+
+//********************-------------These Packages Use Here -------------********************//
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/constants.dart';
 import 'package:groccryapp/constants/routes.dart';
-
 import 'package:groccryapp/models/usermodel.dart';
 import 'package:groccryapp/screens/auth/login.dart';
 
 class FirebaseAuthHelper {
+  //********************-------------These are the instances by wich we can access the function in othercalss -------------********************//
+
   static FirebaseAuthHelper instance = FirebaseAuthHelper();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,6 +20,8 @@ class FirebaseAuthHelper {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get getAuthChange => _auth.authStateChanges();
+
+  //********************-------------User Login Functin-------------********************//
 
   Future<bool> login(
       String email, String password, BuildContext context) async {
@@ -31,6 +36,8 @@ class FirebaseAuthHelper {
       return false;
     }
   }
+
+  //********************------------- User Sign Up Functin-------------********************//
 
   Future<bool> signUp(
       String name, String email, String password, BuildContext context) async {
@@ -51,9 +58,13 @@ class FirebaseAuthHelper {
     }
   }
 
+  //********************-------------Sign-Out Functin-------------********************//
+
   void signout() async {
     _auth.signOut();
   }
+
+  //********************-------------Chnage password Functin-------------********************//
 
   Future<bool> changePassword(String password, BuildContext context) async {
     try {
