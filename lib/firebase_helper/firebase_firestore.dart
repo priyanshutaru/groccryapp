@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/constants.dart';
 import 'package:groccryapp/models/category_model.dart';
+import 'package:groccryapp/models/ordermodel.dart';
 import 'package:groccryapp/models/products_model.dart';
 import 'package:groccryapp/models/usermodel.dart';
 
@@ -68,5 +71,78 @@ class FirebaseFirestoreHelper {
             .get();
 
     return UserModel.fromJson(querySnapshot.data()!);
+  }
+
+  Future<bool> uploadOrderedProductFirebase(
+      List<ProductModel> list, BuildContext context, String payment) async {
+    try {
+      showLoaderDialog(context);
+      double totalPrice = 0.0;
+      for (var element in list) {
+        totalPrice += element.price * element.qty!;
+      }
+      DocumentReference documentReference = _firebaseFirestore
+          .collection("usersOrders")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("orders")
+          .doc();
+      DocumentReference admin = _firebaseFirestore.collection("orders").doc();
+
+      admin.set({
+        "products": list.map((e) => e.toJson()),
+        "status": "Pending",
+        "totalPrice": totalPrice,
+        "payment": payment,
+        "orderId": admin.id,
+      });
+      documentReference.set({
+        "products": list.map((e) => e.toJson()),
+        "status": "Pending",
+        "totalPrice": totalPrice,
+        "payment": payment,
+        "orderId": documentReference.id,
+      });
+      Navigator.of(context, rootNavigator: true).pop();
+      toastMessage("Ordered Successfully");
+      return true;
+    } catch (e) {
+      toastMessage(e.toString());
+      Navigator.of(context, rootNavigator: true).pop();
+      return false;
+    }
+  }
+
+  ////// Get Order User//////
+
+  Future<List<OrderModel>> getUserOrder() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await _firebaseFirestore
+              .collection("usersOrders")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection("orders")
+              .get();
+
+      List<OrderModel> orderList = querySnapshot.docs
+          .map((element) => OrderModel.fromJson(element.data()))
+          .toList();
+
+      return orderList;
+    } catch (e) {
+      toastMessage(e.toString());
+      return [];
+    }
+  }
+
+  void updateTokenFromFirebase() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    if (token != null) {
+      await _firebaseFirestore
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        "notificationToken": token,
+      });
+    }
   }
 }

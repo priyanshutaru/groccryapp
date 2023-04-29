@@ -7,6 +7,7 @@ import 'package:groccryapp/constants/routes.dart';
 import 'package:groccryapp/models/products_model.dart';
 import 'package:groccryapp/provider/app_provider.dart';
 import 'package:groccryapp/screens/cart_screen/cart_screen.dart';
+import 'package:groccryapp/screens/checkout_screens/checkout_screen.dart';
 import 'package:groccryapp/screens/fav_screen/fav_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -154,8 +155,10 @@ class _ProductsDeatialsState extends State<ProductsDeatials> {
                     width: 150,
                     child: ElevatedButton(
                       onPressed: () {
+                        ProductModel productModel =
+                            widget.singleProduct.copyWith(qty: qty);
                         Routes.instance
-                            .push(widget: FavScreen(), context: context);
+                            .push(widget: CheckoutScreen(singleProduct: productModel,), context: context);
                       },
                       child: Text("Buy"),
                     )),

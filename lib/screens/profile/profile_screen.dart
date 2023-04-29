@@ -6,6 +6,7 @@ import 'package:groccryapp/firebase_helper/firebase_auth_helper.dart';
 import 'package:groccryapp/provider/app_provider.dart';
 import 'package:groccryapp/screens/change_password/change_password.dart';
 import 'package:groccryapp/screens/edit_profile/edit_profile.dart';
+import 'package:groccryapp/screens/fav_screen/fav_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProfilScreen extends StatefulWidget {
@@ -85,7 +86,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   title: Text("Your Orders"),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Routes.instance.push(widget: FavScreen(), context: context);
+                  },
                   leading: Icon(Icons.favorite_border),
                   title: Text("Favrioute"),
                 ),

@@ -87,6 +87,7 @@ class _SignleCartItemState extends State<SignleCartItem> {
                                 qty--;
                               }
                             });
+                            appProvider.updateQty(widget.singleProduct, qty);
                           },
                           child: CircleAvatar(
                             child: Icon(Icons.remove),
@@ -111,6 +112,7 @@ class _SignleCartItemState extends State<SignleCartItem> {
                             setState(() {
                               qty++;
                             });
+                            appProvider.updateQty(widget.singleProduct, qty);
                           },
                           child: CircleAvatar(
                             radius: 15,

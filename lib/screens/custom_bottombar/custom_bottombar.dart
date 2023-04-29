@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:groccryapp/screens/cart_screen/cart_screen.dart';
 import 'package:groccryapp/screens/fav_screen/fav_screen.dart';
 import 'package:groccryapp/screens/home/home.dart';
+import 'package:groccryapp/screens/order_screen/order_screen.dart';
 import 'package:groccryapp/screens/profile/profile_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -23,7 +24,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
   List<Widget> _buildScreens() => [
         HomePage(),
         CartScreen(),
-        FavScreen(),
+        OrederScreen(),
         ProfilScreen(),
       ];
 
