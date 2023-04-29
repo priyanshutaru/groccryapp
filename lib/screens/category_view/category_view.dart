@@ -3,9 +3,6 @@ import 'package:groccryapp/firebase_helper/firebase_firestore.dart';
 import 'package:groccryapp/models/category_model.dart';
 import 'package:groccryapp/models/products_model.dart';
 
-
-
-
 class CategoryView extends StatefulWidget {
   final CategoryModel categoryModel;
   const CategoryView({super.key, required this.categoryModel});
@@ -39,6 +36,10 @@ class _CategoryViewState extends State<CategoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(widget.categoryModel.name),
+      ),
       body: isLoading
           ? Center(
               child: Container(
@@ -52,22 +53,23 @@ class _CategoryViewState extends State<CategoryView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: kToolbarHeight*1),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        const BackButton(),
-                        Text(
-                          widget.categoryModel.name,
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  //const SizedBox(height: kToolbarHeight * 1),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(
+                  //       top: 0, right: 12, left: 12, bottom: 12),
+                  //   child: Row(
+                  //     children: [
+                  //       const BackButton(),
+                  //       Text(
+                  //         widget.categoryModel.name,
+                  //         style: const TextStyle(
+                  //           fontSize: 18.0,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   productModelList.isEmpty
                       ? const Center(
                           child: Text("Best Product is empty"),
@@ -90,7 +92,9 @@ class _CategoryViewState extends State<CategoryView> {
                                     productModelList[index];
                                 return Container(
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withOpacity(0.3),
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.3),
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Column(

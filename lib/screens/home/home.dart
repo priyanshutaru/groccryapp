@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/routes.dart';
 
@@ -48,167 +49,447 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  TextEditingController search = TextEditingController();
+  List<ProductModel> searchList = [];
+  void searchProducts(String value) {
+    searchList = bestproductsList
+        .where((element) =>
+            element.name.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
       body: isLoading
           ? Center(
               child: Container(
-              height: 100,
-              width: 100,
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(),
-            ))
-          : Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: kToolbarHeight + 12,
-                    ),
-                    WelcomeTitle(title: "E Commerce ", subtitle: ""),
-                    TextField(
-                      decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
+                height: 100,
+                width: 100,
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const WelcomeTitle(subtitle: "", title: "E Commerce"),
+                        TextFormField(
+                          controller: search,
+                          onChanged: (String value) {
+                            searchProducts(value);
+                          },
+                          decoration:
+                              const InputDecoration(hintText: "Search...."),
+                        ),
+                        const SizedBox(
+                          height: 24.0,
+                        ),
+                        const Text(
+                          "Categories",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                          ),
-                          hintText: "Search your item here....."),
+                        ),
+                      ],
                     ),
-                    WelcomeTitle(title: "", subtitle: "Category"),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    categoryList.isEmpty
-                        ? Center(child: Text("List is Empty"))
-                        : SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: categoryList
-                                  .map(
-                                    (e) => GestureDetector(
-                                      onTap: () {
+                  ),
+                  categoryList.isEmpty
+                      ? const Center(
+                          child: Text("Categories is empty"),
+                        )
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: categoryList
+                                .map(
+                                  (e) => Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: CupertinoButton(
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {
                                         Routes.instance.push(
-                                            widget: CategoryView(
-                                              categoryModel: e,
-                                            ),
+                                            widget:
+                                                CategoryView(categoryModel: e),
                                             context: context);
                                       },
                                       child: Card(
-                                        elevation: 10,
-                                        child: Container(
-                                          height: 80,
-                                          width: 80,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            color: Colors.grey,
-                                          ),
-                                          child: Image.network(
-                                            e.image,
-                                            fit: BoxFit.fill,
-                                          ),
+                                        color: Colors.white,
+                                        elevation: 3.0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        child: SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: Image.network(e.image),
                                         ),
                                       ),
                                     ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                    WelcomeTitle(title: "", subtitle: " Best Products"),
-                    bestproductsList.isEmpty
-                        ? Text("List is Empty")
-                        : GridView.builder(
-                            padding: EdgeInsets.only(bottom: 70),
-                            itemCount: bestproductsList.length,
-                            shrinkWrap: true,
-                            primary: false,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 20,
-                              crossAxisSpacing: 20,
-                              childAspectRatio: 0.7,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              ProductModel singleProduct =
-                                  bestproductsList[index];
-                              return Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
                                   ),
-                                  color: Colors.red.withOpacity(.5),
-                                ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Image.network(
-                                      singleProduct.image,
-                                      height: 100,
-                                      width: 100,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(singleProduct.name),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text("Price"),
-                                        Text("RS ${singleProduct.price}"),
-                                      ],
-                                    ),
-                                    Container(
-                                      width: 120,
-                                      child: OutlinedButton(
-                                        style: OutlinedButton.styleFrom(
-                                          side: BorderSide(color: Colors.black),
-                                        ),
-                                        onPressed: () {
-                                          Routes.instance.push(
-                                              widget: ProductsDeatials(
-                                                singleProduct: singleProduct,
-                                              ),
-                                              context: context);
-                                        },
-                                        child: Text(
-                                          "Buy",
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                                )
+                                .toList(),
                           ),
-                  ],
-                ),
+                        ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  !isSearched()
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 12.0, left: 12.0),
+                          child: Text(
+                            "Best Products",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      : SizedBox.fromSize(),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  search.text.isNotEmpty && searchList.isEmpty
+                      ? const Center(
+                          child: Text("No Product Found"),
+                        )
+                      : searchList.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: GridView.builder(
+                                  padding: const EdgeInsets.only(bottom: 50),
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  itemCount: searchList.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          mainAxisSpacing: 20,
+                                          crossAxisSpacing: 20,
+                                          childAspectRatio: 0.7,
+                                          crossAxisCount: 2),
+                                  itemBuilder: (ctx, index) {
+                                    ProductModel singleProduct =
+                                        searchList[index];
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.3),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          Image.network(
+                                            singleProduct.image,
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                          const SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          Text(
+                                            singleProduct.name,
+                                            style: const TextStyle(
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                              "Price: \$${singleProduct.price}"),
+                                          const SizedBox(
+                                            height: 30.0,
+                                          ),
+                                          SizedBox(
+                                            height: 45,
+                                            width: 140,
+                                            child: OutlinedButton(
+                                              onPressed: () {
+                                                Routes.instance.push(
+                                                    widget: ProductsDeatials(
+                                                        singleProduct:
+                                                            singleProduct),
+                                                    context: context);
+                                              },
+                                              child: const Text(
+                                                "Buy",
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            )
+                          : bestproductsList.isEmpty
+                              ? const Center(
+                                  child: Text("Best Product is empty"),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: GridView.builder(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 50),
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      itemCount: bestproductsList.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              mainAxisSpacing: 20,
+                                              crossAxisSpacing: 20,
+                                              childAspectRatio: 0.7,
+                                              crossAxisCount: 2),
+                                      itemBuilder: (ctx, index) {
+                                        ProductModel singleProduct =
+                                            bestproductsList[index];
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.3),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 12.0,
+                                              ),
+                                              Image.network(
+                                                singleProduct.image,
+                                                height: 100,
+                                                width: 100,
+                                              ),
+                                              const SizedBox(
+                                                height: 12.0,
+                                              ),
+                                              Text(
+                                                singleProduct.name,
+                                                style: const TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                  "Price: \$${singleProduct.price}"),
+                                              const SizedBox(
+                                                height: 30.0,
+                                              ),
+                                              SizedBox(
+                                                height: 45,
+                                                width: 140,
+                                                child: OutlinedButton(
+                                                  onPressed: () {
+                                                    Routes.instance.push(
+                                                        widget: ProductsDeatials(
+                                                            singleProduct:
+                                                                singleProduct),
+                                                        context: context);
+                                                  },
+                                                  child: const Text(
+                                                    "Buy",
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                ],
               ),
             ),
     );
+
+    // return Scaffold(
+    //   // appBar: AppBar(),
+    //   body: isLoading
+    //       ? Center(
+    //           child: Container(
+    //           height: 100,
+    //           width: 100,
+    //           alignment: Alignment.center,
+    //           child: CircularProgressIndicator(),
+    //         ))
+    //       : Padding(
+    //           padding: const EdgeInsets.all(12.0),
+    //           child: SingleChildScrollView(
+    //             scrollDirection: Axis.vertical,
+    //             child: Column(
+    //               mainAxisAlignment: MainAxisAlignment.start,
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 SizedBox(
+    //                   height: kToolbarHeight + 12,
+    //                 ),
+    //                 WelcomeTitle(title: "E Commerce ", subtitle: ""),
+    //                 TextField(
+    //                   decoration: InputDecoration(
+    //                       focusedBorder: OutlineInputBorder(
+    //                         borderRadius: BorderRadius.all(
+    //                           Radius.circular(10),
+    //                         ),
+    //                       ),
+    //                       border: OutlineInputBorder(
+    //                         borderRadius: BorderRadius.all(
+    //                           Radius.circular(10),
+    //                         ),
+    //                       ),
+    //                       prefixIcon: Icon(
+    //                         Icons.search,
+    //                         color: Colors.grey,
+    //                       ),
+    //                       hintText: "Search your item here....."),
+    //                 ),
+    //                 WelcomeTitle(title: "", subtitle: "Category"),
+    //                 SizedBox(
+    //                   height: 10,
+    //                 ),
+    //                 categoryList.isEmpty
+    //                     ? Center(child: Text("List is Empty"))
+    //                     : SingleChildScrollView(
+    //                         scrollDirection: Axis.horizontal,
+    //                         child: Row(
+    //                           children: categoryList
+    //                               .map(
+    //                                 (e) => GestureDetector(
+    //                                   onTap: () {
+    //                                     Routes.instance.push(
+    //                                         widget: CategoryView(
+    //                                           categoryModel: e,
+    //                                         ),
+    //                                         context: context);
+    //                                   },
+    //                                   child: Card(
+    //                                     elevation: 10,
+    //                                     child: Container(
+    //                                       height: 80,
+    //                                       width: 80,
+    //                                       decoration: BoxDecoration(
+    //                                         borderRadius:
+    //                                             BorderRadius.circular(30),
+    //                                         color: Colors.grey,
+    //                                       ),
+    //                                       child: Image.network(
+    //                                         e.image,
+    //                                         fit: BoxFit.fill,
+    //                                       ),
+    //                                     ),
+    //                                   ),
+    //                                 ),
+    //                               )
+    //                               .toList(),
+    //                         ),
+    //                       ),
+    //                 WelcomeTitle(title: "", subtitle: " Best Products"),
+    //                 bestproductsList.isEmpty
+    //                     ? Text("List is Empty")
+    //                     : GridView.builder(
+    //                         padding: EdgeInsets.only(bottom: 70),
+    //                         itemCount: bestproductsList.length,
+    //                         shrinkWrap: true,
+    //                         primary: false,
+    //                         gridDelegate:
+    //                             SliverGridDelegateWithFixedCrossAxisCount(
+    //                           crossAxisCount: 2,
+    //                           mainAxisSpacing: 20,
+    //                           crossAxisSpacing: 20,
+    //                           childAspectRatio: 0.7,
+    //                         ),
+    //                         itemBuilder: (BuildContext context, int index) {
+    //                           ProductModel singleProduct =
+    //                               bestproductsList[index];
+    //                           return Container(
+    //                             height: 100,
+    //                             width: 100,
+    //                             decoration: BoxDecoration(
+    //                               borderRadius: BorderRadius.only(
+    //                                 topLeft: Radius.circular(20),
+    //                                 bottomRight: Radius.circular(20),
+    //                               ),
+    //                               color: Colors.red.withOpacity(.5),
+    //                             ),
+    //                             child: Column(
+    //                               children: [
+    //                                 SizedBox(
+    //                                   height: 20,
+    //                                 ),
+    //                                 Image.network(
+    //                                   singleProduct.image,
+    //                                   height: 100,
+    //                                   width: 100,
+    //                                 ),
+    //                                 SizedBox(
+    //                                   height: 20,
+    //                                 ),
+    //                                 Text(singleProduct.name),
+    //                                 Row(
+    //                                   mainAxisAlignment:
+    //                                       MainAxisAlignment.spaceAround,
+    //                                   children: [
+    //                                     Text("Price"),
+    //                                     Text("RS ${singleProduct.price}"),
+    //                                   ],
+    //                                 ),
+    //                                 Container(
+    //                                   width: 120,
+    //                                   child: OutlinedButton(
+    //                                     style: OutlinedButton.styleFrom(
+    //                                       side: BorderSide(color: Colors.black),
+    //                                     ),
+    //                                     onPressed: () {
+    //                                       Routes.instance.push(
+    //                                           widget: ProductsDeatials(
+    //                                             singleProduct: singleProduct,
+    //                                           ),
+    //                                           context: context);
+    //                                     },
+    //                                     child: Text(
+    //                                       "Buy",
+    //                                       style: TextStyle(color: Colors.black),
+    //                                     ),
+    //                                   ),
+    //                                 ),
+    //                               ],
+    //                             ),
+    //                           );
+    //                         },
+    //                       ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    // );
+  }
+
+  bool isSearched() {
+    if (search.text.isNotEmpty && searchList.isEmpty) {
+      return true;
+    } else if (search.text.isEmpty && searchList.isNotEmpty) {
+      return false;
+    } else if (searchList.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

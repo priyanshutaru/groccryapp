@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:groccryapp/firebase_helper/firebase_firestore.dart';
 import 'package:groccryapp/models/ordermodel.dart';
 
-
 class OrederScreen extends StatelessWidget {
   const OrederScreen({super.key});
 
@@ -18,9 +17,12 @@ class OrederScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ),
+        elevation: 0,
       ),
       body: StreamBuilder(
-        stream: Stream.fromFuture(FirebaseFirestoreHelper.instance.getUserOrder(),),
+        stream: Stream.fromFuture(
+          FirebaseFirestoreHelper.instance.getUserOrder(),
+        ),
         // future: FirebaseFirestoreHelper.instance.getUserOrder(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -35,9 +37,9 @@ class OrederScreen extends StatelessWidget {
               child: Text("No Order Found"),
             );
           }
-          
+
           return Padding(
-            padding: const EdgeInsets.only(bottom:50.0),
+            padding: const EdgeInsets.only(bottom: 50.0),
             child: ListView.builder(
               itemCount: snapshot.data!.length,
               padding: const EdgeInsets.all(12.0),
@@ -47,10 +49,12 @@ class OrederScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: ExpansionTile(
                     tilePadding: EdgeInsets.zero,
-                    collapsedShape:  RoundedRectangleBorder(
-                        side: BorderSide(color:Theme.of(context).primaryColor, width: 2.3)),
-                    shape:  RoundedRectangleBorder(
-                        side: BorderSide(color:Theme.of(context).primaryColor, width: 2.3)),
+                    collapsedShape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 2.3)),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 2.3)),
                     title: Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
@@ -58,7 +62,8 @@ class OrederScreen extends StatelessWidget {
                         Container(
                           height: 120,
                           width: 120,
-                          color:Theme.of(context).primaryColor.withOpacity(0.5),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.5),
                           child: Image.network(
                             orderModel.products[0].image,
                           ),
@@ -115,7 +120,7 @@ class OrederScreen extends StatelessWidget {
                     children: orderModel.products.length > 1
                         ? [
                             const Text("Details"),
-                             Divider(color:Theme.of(context).primaryColor),
+                            Divider(color: Theme.of(context).primaryColor),
                             ...orderModel.products.map((singleProduct) {
                               return Padding(
                                 padding:
@@ -130,7 +135,9 @@ class OrederScreen extends StatelessWidget {
                                         Container(
                                           height: 80,
                                           width: 80,
-                                          color:Theme.of(context).primaryColor.withOpacity(0.5),
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.5),
                                           child: Image.network(
                                             singleProduct.image,
                                           ),
@@ -174,7 +181,8 @@ class OrederScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                     Divider(color: Theme.of(context).primaryColor),
+                                    Divider(
+                                        color: Theme.of(context).primaryColor),
                                   ],
                                 ),
                               );

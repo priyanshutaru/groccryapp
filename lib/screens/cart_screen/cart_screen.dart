@@ -73,8 +73,15 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       appBar: AppBar(
-        title: Text("My Cart"),
+        backgroundColor: Colors.white,
         centerTitle: true,
+        title: const Text(
+          "My Cart",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        elevation: 0,
       ),
       body: appProvider.getCartProductList.isEmpty
           ? Center(
