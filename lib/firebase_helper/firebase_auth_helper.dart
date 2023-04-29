@@ -1,13 +1,19 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groccryapp/constants/constants.dart';
+
+import 'package:groccryapp/models/usermodel.dart';
+
 
 class FirebaseAuthHelper {
   static FirebaseAuthHelper instance = FirebaseAuthHelper();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get getAuthChange => _auth.authStateChanges();
 
@@ -31,10 +37,10 @@ class FirebaseAuthHelper {
       showLoaderDialog(context);
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      // UserModel userModel = UserModel(
-      //     id: userCredential.user!.uid, name: name, email: email, image: null);
+      UserModel userModel = UserModel(
+          id: userCredential.user!.uid, name: name, email: email, image: null);
 
-      // _firestore.collection("users").doc(userModel.id).set(userModel.toJson());
+      _firestore.collection("users").doc(userModel.id).set(userModel.toJson());
       Navigator.of(context,rootNavigator: true).pop();
       return true;
     } on FirebaseAuthException catch (error) {
@@ -43,6 +49,11 @@ class FirebaseAuthHelper {
       return false;
     }
   }
+
+  void signout()async{
+    _auth.signOut();
+
+  } 
 
 
 }

@@ -6,6 +6,7 @@ import 'package:groccryapp/constants/constants.dart';
 import 'package:groccryapp/constants/routes.dart';
 import 'package:groccryapp/firebase_helper/firebase_auth_helper.dart';
 import 'package:groccryapp/screens/auth/signup.dart';
+import 'package:groccryapp/screens/custom_bottombar/custom_bottombar.dart';
 import 'package:groccryapp/screens/home/home.dart';
 import 'package:groccryapp/widgets/welcomepage/button.dart';
 import 'package:groccryapp/widgets/welcomepage/toptext.dart';
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         .login(email.text, password.text, context);
                     if (isLogined) {
                       Routes.instance.pushAndRemoveUntil(
-                          widget: const HomePage(), context: context);
+                          widget: const CustomBottomBar(), context: context);
                     }
                   }
 

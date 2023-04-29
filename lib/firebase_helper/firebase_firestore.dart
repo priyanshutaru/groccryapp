@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groccryapp/constants/constants.dart';
 import 'package:groccryapp/models/category_model.dart';
 import 'package:groccryapp/models/products_model.dart';
+import 'package:groccryapp/models/usermodel.dart';
 
 class FirebaseFirestoreHelper {
   static FirebaseFirestoreHelper instance = FirebaseFirestoreHelper();
@@ -56,5 +58,15 @@ class FirebaseFirestoreHelper {
       toastMessage(e.toString());
       return [];
     }
+  }
+
+  Future<UserModel> getUserInformation() async {
+    DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+        await _firebaseFirestore
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
+
+    return UserModel.fromJson(querySnapshot.data()!);
   }
 }

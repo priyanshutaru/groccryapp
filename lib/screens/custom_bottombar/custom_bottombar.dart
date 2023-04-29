@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:groccryapp/screens/cart_screen/cart_screen.dart';
 import 'package:groccryapp/screens/fav_screen/fav_screen.dart';
 import 'package:groccryapp/screens/home/home.dart';
+import 'package:groccryapp/screens/profile/profile_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
 
 class CustomBottomBar extends StatefulWidget {
   const CustomBottomBar({
@@ -24,8 +24,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         HomePage(),
         CartScreen(),
         FavScreen(),
-        FavScreen(),
-         
+        ProfilScreen(),
       ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() => [
@@ -53,7 +52,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.person),
           inactiveIcon: const Icon(Icons.person_outline),
-          title: "Account",
+          title: "Profile",
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white,
         ),

@@ -6,9 +6,11 @@ import 'package:groccryapp/constants/routes.dart';
 import 'package:groccryapp/firebase_helper/firebase_firestore.dart';
 import 'package:groccryapp/models/category_model.dart';
 import 'package:groccryapp/models/products_model.dart';
+import 'package:groccryapp/provider/app_provider.dart';
 import 'package:groccryapp/screens/category_view/category_view.dart';
 import 'package:groccryapp/screens/product_details/product_details.dart';
 import 'package:groccryapp/widgets/welcomepage/toptext.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,6 +27,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    appProvider.getUserInfoFirebase();
     getCategoryList();
     super.initState();
   }
