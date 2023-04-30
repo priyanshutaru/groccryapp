@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 
+
+//********************------------- This is authentic that user is ios or androide.  -------------********************//
 class DefaultFirebaseConfig {
   static FirebaseOptions get platformOptions {
     if (Platform.isIOS) {

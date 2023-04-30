@@ -1,9 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
+//********************------------- these are the theme by which is for reusable widget deccoretion or all things.  -------------********************//
+
 import 'package:flutter/material.dart';
 
 ThemeData themeData = ThemeData(
+  //********************------------- background color for all apps  -------------********************//
   scaffoldBackgroundColor: Colors.white,
+
+
+  //********************------------- Elevated button theme -------------********************//
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
@@ -15,6 +21,10 @@ ThemeData themeData = ThemeData(
       ),
     ),
   ),
+
+  //********************------------- this is the textformfields deccoration theme  -------------********************//
+
+
   inputDecorationTheme: InputDecorationTheme(
     border: outlineInputBorder,
     errorBorder: outlineInputBorder,

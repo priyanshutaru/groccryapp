@@ -11,6 +11,11 @@ import 'package:groccryapp/models/usermodel.dart';
 class FirebaseFirestoreHelper {
   static FirebaseFirestoreHelper instance = FirebaseFirestoreHelper();
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+
+  //********************------------- This is category list model  -------------********************//
+
+
   Future<List<CategoryModel>> getCategories() async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -27,6 +32,10 @@ class FirebaseFirestoreHelper {
     }
   }
 
+  //********************------------- This is best porduct list model  -------------********************//
+
+
+
   Future<List<ProductModel>> getBestProducts() async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -42,6 +51,9 @@ class FirebaseFirestoreHelper {
       return [];
     }
   }
+
+
+  //********************------------- This model is for divide the product category wise  -------------********************//
 
   Future<List<ProductModel>> getCategoryViewProduct(String id) async {
     try {
@@ -63,6 +75,8 @@ class FirebaseFirestoreHelper {
     }
   }
 
+  //********************------------- This model for take the information of user.  -------------********************//
+
   Future<UserModel> getUserInformation() async {
     DocumentSnapshot<Map<String, dynamic>> querySnapshot =
         await _firebaseFirestore
@@ -72,6 +86,8 @@ class FirebaseFirestoreHelper {
 
     return UserModel.fromJson(querySnapshot.data()!);
   }
+
+  //********************------------- By this model the ordered product details upload on the firestore -------------********************//
 
   Future<bool> uploadOrderedProductFirebase(
       List<ProductModel> list, BuildContext context, String payment) async {
@@ -113,6 +129,7 @@ class FirebaseFirestoreHelper {
   }
 
   ////// Get Order User//////
+  //********************------------- This model show in app as the front of ui behalf of the firebase data -------------********************//
 
   Future<List<OrderModel>> getUserOrder() async {
     try {
@@ -132,7 +149,12 @@ class FirebaseFirestoreHelper {
       toastMessage(e.toString());
       return [];
     }
+
   }
+  
+  
+  //********************------------- This is token for massaing the user by the panel -------------********************//
+
 
   void updateTokenFromFirebase() async {
     String? token = await FirebaseMessaging.instance.getToken();

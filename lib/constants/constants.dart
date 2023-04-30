@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+
+//********************------------- this function show the toast masssage in the screen  -------------********************//
+
 void toastMessage(String message) {
   Fluttertoast.showToast(
     msg: message,
@@ -9,6 +12,9 @@ void toastMessage(String message) {
     fontSize: 16.0,
   );
 }
+
+
+//********************------------- this the loader dailagu which is show in each and every where in app when we upload or delete the data of login as the user.  -------------********************//
 
 showLoaderDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
@@ -40,6 +46,8 @@ showLoaderDialog(BuildContext context) {
     },
   );
 }
+
+//********************------------- These are the error massages  -------------********************//
 
 String getMessageFromErrorCode(String errorCode) {
   switch (errorCode) {
@@ -75,6 +83,9 @@ String getMessageFromErrorCode(String errorCode) {
   }
 }
 
+
+//********************------------- This is the login validation   -------------********************//
+
 bool loginVaildation(String email, String password) {
   if (email.isEmpty && password.isEmpty) {
     toastMessage("Both Fields are empty");
@@ -89,6 +100,9 @@ bool loginVaildation(String email, String password) {
     return true;
   }
 }
+
+
+//********************------------- This is the signupvlaidation in flutter  -------------********************//
 
 bool signUpVaildation(
     String email, String password, String name, String phone) {
