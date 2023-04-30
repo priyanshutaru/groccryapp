@@ -18,7 +18,7 @@ void main() async{
     options: DefaultFirebaseConfig.platformOptions,
     
   );
-  runApp(const MyApp());
+  runApp(const MyApp());//bhbjbj
 }
 
 class MyApp extends StatelessWidget {
